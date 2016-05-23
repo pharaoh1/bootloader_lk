@@ -177,9 +177,10 @@ bool partition_gpt_exists();
  */
 
 struct partition_info partition_get_info(const char *name);
-
+uint8_t get_partition_count(void);
 /* For Debugging */
 void partition_dump(void);
+struct partition_entry* get_partition_entries(void);
 /* Read only attribute for partition */
 int partition_read_only(int index);
 #endif

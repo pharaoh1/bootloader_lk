@@ -949,6 +949,10 @@ uint8_t partition_get_lun(int index)
 	return partition_entries[index].lun;
 }
 
+uint8_t get_partition_count()
+{
+	return partition_count;
+}
 /* Debug: Print all parsed partitions */
 void partition_dump()
 {
@@ -963,6 +967,11 @@ void partition_dump()
 	}
 }
 
+struct partition_entry* get_partition_entries()
+{ 
+
+   return partition_entries;
+}
 static unsigned int
 partition_verify_mbr_signature(unsigned size, unsigned char *buffer)
 {

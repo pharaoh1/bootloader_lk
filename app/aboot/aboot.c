@@ -3092,6 +3092,27 @@ void cmd_oem_select_display_panel(const char *arg, void *data, unsigned size)
 	write_device_info(&device);
 	fastboot_okay("");
 }
+void cmd_oem_dump_partition(const char *arg, void *data, unsigned size)
+{
+	dprintf(INFO, "dump partition %s\n", arg);
+        char resp[64];
+	int partition_count = 0;
+	partition_count = get_partition_count();
+
+
+	struct partition_entry* partition_entries = get_partition_entries();
+	int i = 0;
+	for (i = 0; i < partition_count; i++) {
+		snprintf(resp,64,
+			"p%02d:N:%12s S:%10llu T:%u F:%8llu L:%9llu",
+			i, partition_entries[i].name, partition_entries[i].size,
+			partition_entries[i].dtype,
+			partition_entries[i].first_lba,
+			partition_entries[i].last_lba);
+		fastboot_info(resp);
+	}
+	fastboot_okay("");
+}
 
 void cmd_oem_unlock(const char *arg, void *data, unsigned sz)
 {
@@ -3579,6 +3600,7 @@ void aboot_fastboot_register_commands(void)
 						{"oem hardboot-copy", cmd_oem_hardboot_copy},
 						{"oem jump-to-kernel", cmd_oem_jump_to_kernel},
 						{"oem hardboot-set", cmd_oem_hardboot_set},
+						{"oem partition-dump", cmd_oem_dump_partition},
 #endif
 						};
 
