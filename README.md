@@ -1,15 +1,15 @@
-# bootloader_lk
+### bootloader_lk
 LK bootable from Nexus 6P's fastboot, with extra commands for debugging
 
-How to build
-cd /path/to/cm/sources/
+###How to build
+```cd /path/to/cm/sources/
 source build/envsetup.sh
 lunch aosp_arm-eng
 cd /path/to/bootloaderlk/
 make msm8994
 cd build-msm8994
 aarch64-linux-android-objcopy emmc_appsboot.mbn -O binary fastboot-boot.img
-
+```
 
 enter fastboot mode from fastboot.
 
@@ -20,7 +20,7 @@ then you are in new fastboot with extra commands.
 commands available:
 
 G:\>fastboot oem help
-...
+```...
 (bootloader) commands:
 (bootloader)    download:
 (bootloader)    getvar:
@@ -55,10 +55,10 @@ G:\>fastboot oem help
 (bootloader)    flash:
 OKAY [  0.329s]
 finished. total time: 0.330s
-
+```
 
 G:\>fastboot  oem partition-dump
-...
+```...
 (bootloader) p00:N:       modem S:    163840 T:0 F:   16384 L:   180223
 (bootloader) p01:N:        sbl1 S:      2048 T:0 F:  180224 L:   182271
 (bootloader) p02:N:         sdi S:       192 T:0 F:  182272 L:   182463
@@ -105,9 +105,9 @@ G:\>fastboot  oem partition-dump
 (bootloader) p43:N:    userdata S: 236760055 T:0 F: 7517160 L:244277214
 OKAY [  0.448s]
 finished. total time: 0.449s
-
+```
 G:\>fastboot oem dump-partitiontable
-...
+```...
 (bootloader) 0: modem sz:163840 (16384-180223) type:0
 (bootloader) 1: sbl1 sz:2048 (180224-182271) type:0
 (bootloader) 2: sdi sz:192 (182272-182463) type:0
@@ -155,6 +155,6 @@ G:\>fastboot oem dump-partitiontable
 OKAY [  0.440s]
 finished. total time: 0.441s
 
-
+```
 thanks all.
 
