@@ -2,7 +2,8 @@
 LK bootable from Nexus 6P's fastboot, with extra commands for debugging
 
 ###How to build
-```cd /path/to/cm/sources/
+```
+cd /path/to/cm/sources/
 source build/envsetup.sh
 lunch aosp_arm-eng
 cd /path/to/bootloaderlk/
@@ -11,10 +12,11 @@ cd build-msm8994
 aarch64-linux-android-objcopy emmc_appsboot.mbn -O binary fastboot-boot.img
 ```
 
-enter fastboot mode from fastboot.
 
+###enter fastboot mode from fastboot.
+```
 fastboot boot fastboot-boot.img 
-
+```
 then you are in new fastboot with extra commands.
 
 commands available:
