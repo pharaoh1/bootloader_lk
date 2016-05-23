@@ -172,6 +172,7 @@ uint8_t partition_get_lun(int index);
 unsigned int partition_read_table();
 unsigned int write_partition(unsigned size, unsigned char *partition);
 bool partition_gpt_exists();
+unsigned partition_get_count(void);
 /* Return the partition offset & size to app layer
  * Caller should validate the size & offset !=0
  */

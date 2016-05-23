@@ -3041,6 +3041,25 @@ void cmd_reboot_bootloader(const char *arg, void *data, unsigned sz)
 	reboot_device(FASTBOOT_MODE);
 }
 
+void cmd_oem_reboot_recovery(const char *arg, void *data, unsigned sz)
+{
+	fastboot_okay("");
+	reboot_device(RECOVERY_MODE);
+}
+void cmd_oem_reboot_dload(const char *arg, void *data, unsigned sz)
+ {
+ 	fastboot_okay("");
+ 	if (set_download_mode(EMERGENCY_DLOAD))
+ 	{
+ 		dprintf(CRITICAL,"dload mode not supported by target\n");
+ 	}
+ 	else
+ 	{
+ 		reboot_device(DLOAD);
+ 		dprintf(CRITICAL,"Failed to reboot into dload mode\n");
+ 	}
+ }
+ 
 void cmd_oem_enable_charger_screen(const char *arg, void *data, unsigned size)
 {
 	dprintf(INFO, "Enabling charger screen check\n");
@@ -3480,6 +3499,29 @@ int fetch_image_from_partition()
 	}
 }
 
+
+static void cmd_oem_dump_partitiontable(const char *arg, void *data, unsigned sz)
+ {
+ 	char buf[1024];
+ 	unsigned i = 0;
+ 	extern struct partition_entry *partition_entries;
+ 
+ 	for (i = 0; i < partition_get_count(); i++) {
+ 		snprintf(buf, sizeof(buf),
+ 		"%d: %s sz:%llu (%llu-%llu) type:%u",
+ 			i,
+ 			partition_entries[i].name,
+ 			partition_entries[i].size,
+ 			partition_entries[i].first_lba,
+ 			partition_entries[i].last_lba,
+ 			partition_entries[i].dtype
+ 		);
+ 		fastboot_info(buf);
+ 	}
+ 
+ 	fastboot_okay("");
+ }
+ 
 /* Get the size from partiton name */
 static void get_partition_size(const char *arg, char *response)
 {
@@ -3582,6 +3624,8 @@ void aboot_fastboot_register_commands(void)
 						{"continue", cmd_continue},
 						{"reboot", cmd_reboot},
 						{"reboot-bootloader", cmd_reboot_bootloader},
+                        {"oem reboot-recovery", cmd_oem_reboot_recovery},
+                        {"oem reboot-dload", cmd_oem_reboot_dload},
 						{"oem unlock", cmd_oem_unlock},
 						{"oem unlock-go", cmd_oem_unlock_go},
 						{"oem lock", cmd_oem_lock},
@@ -3592,6 +3636,7 @@ void aboot_fastboot_register_commands(void)
 						{"flashing get_unlock_ability", cmd_flashing_get_unlock_ability},
 						{"oem device-info", cmd_oem_devinfo},
 						{"preflash", cmd_preflash},
+                                                {"oem dump-partitiontable", cmd_oem_dump_partitiontable},
 						{"oem enable-charger-screen", cmd_oem_enable_charger_screen},
 						{"oem disable-charger-screen", cmd_oem_disable_charger_screen},
 						{"oem off-mode-charge", cmd_oem_off_mode_charger},
